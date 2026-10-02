@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject var colorVM = ColorVM()
+    
     var body: some View {
+        let currentPalette: ColorPalette = colorVM.colorPalettes["Green", default: colorVM.defaultPalette]
+        
         TabView {
             NavigationStack {
-                PrayerRequestsView()
-                    .navigationTitle("Prayer Requests")
+                PrayerRequestsView(currentPalette: currentPalette)
+                    .navigationTitle("Prayer Requests").foregroundStyle(currentPalette.primaryText)
+                    .toolbarColorScheme(currentPalette.toolBarColor, for: .navigationBar)
             }
             .tabItem {
-                Label("Requests", systemImage: "book.pages")
+                Label("Requests", systemImage: "book.pages").foregroundStyle(currentPalette.thirdColor)
             }
         }
+        .tint(currentPalette.thirdColor)
     }
 }
 

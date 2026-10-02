@@ -12,11 +12,12 @@ class ColorVM: ObservableObject {
     @Published var colorPalettes: [String: ColorPalette] = [:]
     
     let defaultPalette = ColorPalette(
-        foreground: .white,
-        background: .white,
+        primary: .white,
+        secondary: .white,
+        thirdColor: .white,
         primaryText: .white,
         secondaryText: .white,
-        interactables: .white
+        toolBarColor: .light
     )
     
     init() {
@@ -24,12 +25,13 @@ class ColorVM: ObservableObject {
     }
     
     func getColors() {
-        colorPalettes["Calm"] = ColorPalette(
-            foreground: Color(hex: "#B2DFDB"),
-            background: Color(hex: "#4DD0E1"),
-            primaryText: Color(hex: "#F9FAFB"),
-            secondaryText: Color(hex: "#90A4AE"),
-            interactables: Color(hex: "#263238")
+        colorPalettes["Green"] = ColorPalette(
+            primary: Color(hex: "#078C4E"),
+            secondary: Color(hex: "#0D734D"),
+            thirdColor: Color(hex: "#0D0D0D"),
+            primaryText: Color(hex: "#D9D9D9"),
+            secondaryText: Color(hex: "#c9c9c9"),
+            toolBarColor: .dark
         )
     }
 }

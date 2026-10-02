@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct PrayerRequestsView: View {
-    
-    @StateObject var colorVM = ColorVM()
+    @State var currentPalette: ColorPalette
     
     var body: some View {
-        let currentPalette = colorVM.colorPalettes["Calm", default: colorVM.defaultPalette]
-        
         ZStack {
-            currentPalette.background.ignoresSafeArea()
+            currentPalette.secondary.ignoresSafeArea()
             ScrollView {
-                LazyVStack(spacing: 20) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 400))], spacing: 20) {
                     Button {
                         
                     } label: {
@@ -27,7 +24,7 @@ struct PrayerRequestsView: View {
                             }
                             Divider()
                                 .frame(height: 1)
-                                .background(currentPalette.background)
+                                .background(currentPalette.secondary)
                             Text("October 1st, 2026")
                                 .font(.system(.subheadline))
                                 .padding(.vertical)
@@ -37,7 +34,7 @@ struct PrayerRequestsView: View {
                         }
                         .padding(20)
                         .multilineTextAlignment(.leading)
-                        .background(RoundedRectangle(cornerRadius: 20).fill(currentPalette.foreground))
+                        .background(RoundedRectangle(cornerRadius: 20).fill(currentPalette.primary))
                     }
                 }
                 .padding(.horizontal)
@@ -47,5 +44,6 @@ struct PrayerRequestsView: View {
 }
 
 #Preview {
-    PrayerRequestsView()
+    @Previewable @StateObject var colorVM = ColorVM()
+    PrayerRequestsView(currentPalette: colorVM.colorPalettes["Green", default: colorVM.defaultPalette])
 }
