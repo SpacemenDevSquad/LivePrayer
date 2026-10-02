@@ -11,6 +11,14 @@ import SwiftUI
 class ColorVM: ObservableObject {
     @Published var colorPalettes: [String: ColorPalette] = [:]
     
+    let defaultPalette = ColorPalette(
+        foreground: .white,
+        background: .white,
+        primaryText: .white,
+        secondaryText: .white,
+        interactables: .white
+    )
+    
     init() {
         getColors()
     }
