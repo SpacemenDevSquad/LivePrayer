@@ -15,7 +15,7 @@ struct MainView: View {
         
         TabView {
             NavigationStack {
-                PrayerRequestsView(currentPalette: currentPalette)
+                PrayerRequestsView(currentPalette: currentPalette, prayers: [])
                     .navigationTitle("Prayer Requests").foregroundStyle(currentPalette.primaryText)
                     .toolbarColorScheme(currentPalette.toolBarColor, for: .navigationBar)
             }

@@ -9,32 +9,35 @@ import SwiftUI
 
 struct PrayerRequestsView: View {
     @State var currentPalette: ColorPalette
+    @State var prayers: [PrayerRequest]
     
     var body: some View {
         ZStack {
             currentPalette.secondary.ignoresSafeArea()
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 400))], spacing: 20) {
-                    Button {
-                        
-                    } label: {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("How long can I make this before it gets weird").font(.system(.title)).foregroundStyle(currentPalette.primaryText)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 20) {
+                    ForEach (prayers) { prayer in
+                        Button {
+                            
+                        } label: {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(prayer.title).font(.system(.title)).foregroundStyle(currentPalette.primaryText)
+                                }
+                                Divider()
+                                    .frame(height: 1)
+                                    .background(currentPalette.secondary)
+                                Text(prayer.date)
+                                    .font(.system(.subheadline))
+                                    .padding(.vertical)
+                                    .foregroundStyle(currentPalette.secondaryText)
+                                Text(prayer.description)
+                                    .foregroundStyle(currentPalette.primaryText)
                             }
-                            Divider()
-                                .frame(height: 1)
-                                .background(currentPalette.secondary)
-                            Text("October 1st, 2026")
-                                .font(.system(.subheadline))
-                                .padding(.vertical)
-                                .foregroundStyle(currentPalette.secondaryText)
-                            Text("Description goes here...")
-                                .foregroundStyle(currentPalette.primaryText)
+                            .padding(20)
+                            .multilineTextAlignment(.leading)
+                            .background(RoundedRectangle(cornerRadius: 20).fill(currentPalette.primary))
                         }
-                        .padding(20)
-                        .multilineTextAlignment(.leading)
-                        .background(RoundedRectangle(cornerRadius: 20).fill(currentPalette.primary))
                     }
                 }
                 .padding(.horizontal)
@@ -45,5 +48,6 @@ struct PrayerRequestsView: View {
 
 #Preview {
     @Previewable @StateObject var colorVM = ColorVM()
-    PrayerRequestsView(currentPalette: colorVM.colorPalettes["Green", default: colorVM.defaultPalette])
+    @Previewable @StateObject var prayersVM = PrayersVM()
+    PrayerRequestsView(currentPalette: colorVM.colorPalettes["Green", default: colorVM.defaultPalette], prayers: prayersVM.prayerLibraries[0].prayers)
 }
