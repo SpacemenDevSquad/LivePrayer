@@ -9,14 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject var colorVM = ColorVM()
+    @StateObject var prayersVM = PrayersVM()
     
     var body: some View {
         let currentPalette: ColorPalette = colorVM.colorPalettes["Green", default: colorVM.defaultPalette]
+        let currentPrayerLib: PrayerLibrary = prayersVM.prayerLibraries[0]
         
         TabView {
             NavigationStack {
-                PrayerRequestsView(currentPalette: currentPalette, prayers: [])
-                    .navigationTitle("Prayer Requests").foregroundStyle(currentPalette.primaryText)
+                PrayerRequestsView(currentPalette: currentPalette, prayers: currentPrayerLib.prayers)
+                    .navigationTitle(currentPrayerLib.title).foregroundStyle(currentPalette.primaryText)
                     .toolbarColorScheme(currentPalette.toolBarColor, for: .navigationBar)
             }
             .tabItem {

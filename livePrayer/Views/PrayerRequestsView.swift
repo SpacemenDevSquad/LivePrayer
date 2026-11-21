@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+
 struct PrayerRequestsView: View {
     @State var currentPalette: ColorPalette
     @State var prayers: [PrayerRequest]
+    @State private var selectedPrayer: PrayerRequest?
     let grid: [GridItem] = [GridItem(.adaptive(minimum: 300), spacing: 20)]
     
     var body: some View {
@@ -19,7 +21,7 @@ struct PrayerRequestsView: View {
                 LazyVGrid(columns: grid, spacing: 20) {
                     ForEach (prayers) { prayer in
                         Button {
-                            
+                            selectedPrayer = prayer
                         } label: {
                             VStack(alignment: .leading) {
                                 Text(prayer.title).font(.system(.title)).foregroundStyle(currentPalette.primaryText)
@@ -38,14 +40,36 @@ struct PrayerRequestsView: View {
                             .frame(maxHeight: .infinity, alignment: .topLeading)
                             .background(RoundedRectangle(cornerRadius: 20).fill(currentPalette.primary))
                         }
-                        .frame(
-                            maxHeight: .infinity,
-                            alignment: .topLeading
-                        )
+                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .buttonStyle(PrayerButtonStyle())
                     }
                 }
                 .padding(.horizontal)
             }.padding(.top, 40)
+        }
+        .confirmationDialog(
+            "Options",
+            isPresented: Binding(
+                get: { selectedPrayer != nil },
+                set: { if !$0 { selectedPrayer = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Edit") {
+                if let prayer = selectedPrayer {
+                    selectedPrayer = nil
+                }
+            }
+
+            Button("Remove", role: .destructive) {
+                if let prayer = selectedPrayer {
+                    selectedPrayer = nil
+                }
+            }
+
+            Button("Cancel", role: .cancel) {
+                selectedPrayer = nil
+            }
         }
     }
 }
